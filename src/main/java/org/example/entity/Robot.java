@@ -22,6 +22,11 @@ public class Robot {
 
   private Float weight;
 
-  @ManyToMany
+  @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   private List<Part> parts = new ArrayList<>();
+
+  public void addPart(final Part part) {
+    this.parts.add(part);
+//    part.addRobot(this);
+  }
 }

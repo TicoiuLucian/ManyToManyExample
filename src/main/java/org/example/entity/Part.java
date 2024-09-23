@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,12 @@ public class Part {
 
   private Float weight;
 
-  @ManyToMany(mappedBy = "parts")
+  @ManyToMany(mappedBy = "parts", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  @JsonBackReference
   private List<Robot> robots = new ArrayList<>();
+
+  public void addRobot(Robot robot){
+    this.robots.add(robot);
+    robot.addPart(this);
+  }
 }
